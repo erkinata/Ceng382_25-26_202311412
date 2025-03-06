@@ -1,0 +1,338 @@
+<!-- sayfa açılınca olan Wake up, Neo... yazısı için
+Courier yazı tipinde olmalı. 
+Yazı Ekranın sol üst köşesinde olmalı( tıpkı filmdeki gibi)
+.Ayrıca imleç de eski bilgisayarlardaki kare metin modu imleci  
+Bir de Block crusor tıpkı yazmayı bekliyormuş gibi yanıp sönmeyi sürdürsün
+yazının eski bilgisayarlardaki gibi çizgili ve eski bir görünüm almasını istiyorum
+ ve hafif neon parlak gibi  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wake Up, Neo</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: "Courier New", Courier, monospace;
+            text-align: left;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #text {
+            font-size: 24px;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            padding-right: 5px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 5px #00ff00, 0 0 100px #00ff00;
+            filter: brightness(2);
+        }
+
+
+        /* "Wake up, Neo..." yazıldıktan sonra 
+        ekrana iki adet css çizimi olan biri kırmızı diğeri mavi hap gelmeli
+        haplardan soldaki  135 derecelik açıyla, sağdaki 45 derecelik açıyla durmalı. 
+        Haplar parlak transparan neon ışıklı yapılmalı 
+        Hapların daha cilalı gözükmesi için beyaz renkte bir yansıma efekti eklensin
+        hapların etrafına siyah bir çerçeve eklemek istiyorum daha iyi dursun
+haplara yüzme efekti/animasyonu ekleyelim şimdi mouse ile hapların üzerine geldiğimizde 
+bir hover olsun istiyorum mesela hapın boyutunun artması
+  */
+        .pill {
+            width: 70px;
+            height: 140px;
+            border-radius: 35px;
+            position: absolute;
+            opacity: 0;
+            animation: showPill 2s forwards 3s, float 3s ease-in-out 4.7s infinite;
+            border: 1px solid black;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pill.red {
+            left: 20%; 
+            bottom: 20%;
+            background-color: rgba(255, 0, 0, 0.7); 
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), 0 0 40px rgba(255, 0, 0, 0.5); 
+            --rotate-angle: -45deg;
+        }
+
+        .pill.blue {
+            right: 20%; 
+            bottom: 20%;
+            background-color: rgba(0, 0, 255, 0.7); 
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.5), 0 0 40px rgba(0, 0, 255, 0.5); 
+            --rotate-angle: 45deg;
+        }
+
+        .pill.red::before {
+            content: "";
+            position: absolute;
+            left: 77%;
+            top: 30%;
+            width: 11px;
+            height: 55px;
+            border-radius: 30% 60% 30% 30%;
+            box-shadow: inset -12px 5px 0 5px rgb(124, 123, 123);
+        }
+
+        .pill.blue::before {
+            content: "";
+            position: absolute;
+            left: 8%;
+            top: 40%;
+            width: 11px;
+            height: 60px;
+            border-radius: 40% 20% 25% 75%;
+            box-shadow: inset -12px 5px 0 5px rgba(114, 111, 111, 0.795);
+        }
+
+        .pill:hover {
+            scale: 1.2;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes showPill {
+            0% {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotate(var(--rotate-angle));
+            }
+        }
+
+        @keyframes float {
+    0% {
+        transform: translateY(0) rotate(var(--rotate-angle));
+    }
+    50% {
+        transform: translateY(-10px) rotate(var(--rotate-angle));
+    }
+    100% {
+        transform: translateY(0) rotate(var(--rotate-angle));
+    }
+}
+        
+/* kullanıcı haplardan birine tıklayacak sonrasında arka plan tıklanan pill'e
+ göre değişecek glitch efektli bir login ekranı açılacak. 
+Bu ekranda username password kutucukları ve bir de login butonu olacak. */
+
+.login-box {
+    position: relative;
+    top: calc(50% - 100px); /* Yüksekliği hesaplayarak ortalamayı düzelt */
+    left: calc(50% - 220px); /* Genişliği hesaplayarak ortalamayı düzelt */
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            color: white;
+            border: 2px solid #00ff00;
+            text-align: center;
+            opacity: 0;
+            font-size: 18px;
+            transition: opacity 1s ease-in-out,glitch 1s infinite;
+            animation: glitch 1s infinite;
+            
+        }
+
+/* sana verdiğim glitch animasyonunu sadeleştir ve matrix rengine uyarla  */
+
+        .glitch {
+    position: relative;
+    color: #fff;
+    font-size: 80px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.glitch .line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: clip 3000ms linear infinite;
+}
+
+@keyframes glitch {
+    0% {
+        transform: translateX(0);
+    }
+    80% {
+        transform: translateX(0);
+        color: #fff;
+    }
+    85% {
+        transform: translateX(random(10) - 5px);
+        color: #4E9A26;
+    }
+    90% {
+        transform: translateX(random(10) - 5px);
+        color: #AC1212;
+    }
+    95% {
+        transform: translateX(random(10) - 5px);
+        color: #fff;
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes clip {
+    0% {
+        clip-path: polygon(0 100%, 100% 100%, 100% 120%, 0 120%);
+    }
+
+    100% {
+        clip-path: polygon(0 -20%, 100% -20%, 100% 0%, 0 0);
+    }
+}
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        input {
+    background-color: #8ff06b; /* Açık matrix yeşili */
+    border-radius: 40px; /* Elips tasarım */
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    font-family: "Courier New", Courier, monospace;
+}
+
+input::placeholder {
+    color: #004d00; /* Koyu yeşil, Matrix havası için */
+    font-family: "Courier New", Courier, monospace;;}
+
+
+
+
+    /*eliptik bir login butonu css kodu yaz. 
+    Bu butonun hoverı da olsun hoverın rengi de seçilen hap neyse onun rengi olsun. */
+
+    .login-button {
+    width: 50px; /* Buton genişliği */
+    height: 25px; /* Buton yüksekliği */
+    border-radius: 50px; /* Eliptik görünüm */
+    background-color: #008500; /* Varsayılan buton rengi */
+    color: rgb(197, 231, 196);; /* Yazı rengi */
+    font-family: "Courier New", Courier, monospace;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+/* Seçilen hap rengine göre hover rengi */
+.login-button:hover {
+    background-color: var(--pill-color); /* CSS değişkeni ile hap rengi */
+}
+
+
+/* login butonu özelliklerine sahip register butonu koy */
+
+
+.register-button {
+    width: 65px; /* Buton genişliği */
+    height: 24px; /* Buton yüksekliği */
+    border-radius: 50px; /* Eliptik görünüm */
+    background-color: #008500; /* Varsayılan buton rengi */
+    color: rgb(197, 231, 196); /* Yazı rengi */
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Seçilen hap rengine göre hover rengi */
+.register-button:hover {
+    background-color: var(--pill-color); /* CSS değişkeni ile hap rengi */
+}
+.button-container {
+    display: flex;
+    gap: 10px; /* Butonlar arasında boşluk bırak */
+}
+
+        
+    </style>
+</head>
+<body>
+    <div id="text"></div>
+    <div class="pill red" onclick="choosePill('red')"></div>
+    <div class="pill blue" onclick="choosePill('blue')"></div>
+    
+    <video id="bgVideo" autoplay loop></video>
+    <div class="login-box" id="loginBox">
+        <p class="glitch-text" data-text="ENTER THE MATRIX">Enter the Matrix</p>
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button class="login-button">Login</button>
+        <button class="register-button">Register</button>
+
+    </div>
+
+    <script>
+        // bir wake up neo... yazısını matrix tarzında kodla ve bunun üzerine ekleyebileceğimiz şeylere bakalım
+
+        const text = "Wake up, Neo...";
+        let index = 0;
+
+        function typeWriter() {
+            if (index < text.length) {
+                document.getElementById("text").textContent += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 150);
+            }
+        }
+        setTimeout(typeWriter, 1000);
+
+        //  pill'ler css çizimi ve buton görevi görecekler, 
+        //  tıklandığında ikisi de kaybolacak ekran temizlenecek ve iki farklı butondan hangisi 
+        //  tıklandıysa ona göre arka plan videosu oynatacak. Arka plan videosu mp4 olacak ve ben source vereceğim
+        // arka plan değişiminin yanında login 
+        // ekranının da gelmesini istiyorum bu da bir animasyonla olacak.
+        // red pill arka plan mp4 dosyasının adı redpill.mp4 diğerinin
+        //  bluepill.mp4 şimdi kodları bu kodların işleyişini bozmadan düzenle
+
+        function choosePill(color) {
+    // Set video source
+    document.getElementById('bgVideo').src = color === 'red' ? 'redpill.mp4' : 'bluepill.mp4';
+    document.getElementById('bgVideo').style.display = 'block';
+
+    // Modify login box
+    document.getElementById("loginBox").style.opacity = "1";
+    loginBox.style.display = 'block';
+    loginBox.style.color = color;
+    loginBox.style.textShadow = color === 'red' 
+        ? '2px 2px 4px rgba(255,0,0,0.7)' 
+        : '2px 2px 4px rgba(0,0,255,0.7)';
+
+    loginBox.style.background = color === 'red'
+        ? 'rgba(179, 29, 29, 0.514)'
+        : 'rgba(29, 29, 182, 0.514)';
+
+    // Hide initial page elements
+    document.getElementById('text').style.display = 'none';
+    document.querySelector('.pill.red').style.display = 'none';
+    document.querySelector('.pill.blue').style.display = 'none';
+    document.documentElement.style.setProperty('--pill-color', '#ff0000'); // Kırmızı hap örneği
+}
+    </script>
+</body>
+</html>
