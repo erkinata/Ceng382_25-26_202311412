@@ -38,6 +38,22 @@ yazının eski bilgisayarlardaki gibi çizgili ve eski bir görünüm almasını
             filter: brightness(2);
         }
 
+        /* Kare metin modu imleci */
+        @keyframes blinkCursor {
+            50% { background-color: transparent; }
+        }
+
+        /* Blok imleci (kare) */
+        #text::after {
+            content: " ";
+            width: 10px;
+            height: 20px;
+            background-color: #00ff00;
+            display: inline-block;
+            position: relative;
+            left: 5px;
+            animation: blinkCursor 1s infinite; /* Yanıp sönme efekti */
+        }
 
         /* "Wake up, Neo..." yazıldıktan sonra 
         ekrana iki adet css çizimi olan biri kırmızı diğeri mavi hap gelmeli
@@ -268,7 +284,17 @@ input::placeholder {
     display: flex;
     gap: 10px; /* Butonlar arasında boşluk bırak */
 }
-
+#clock {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: "Courier New", Courier, monospace;
+    color: #00ff00;
+    font-size: 24px;
+    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+    letter-spacing: 3px;
+    z-index: 1000;
+}
         
     </style>
 </head>
@@ -286,6 +312,7 @@ input::placeholder {
         <button class="register-button">Register</button>
 
     </div>
+    <div id="clock"></div>
 
     <script>
         // bir wake up neo... yazısını matrix tarzında kodla ve bunun üzerine ekleyebileceğimiz şeylere bakalım
@@ -299,9 +326,59 @@ input::placeholder {
                 index++;
                 setTimeout(typeWriter, 150);
             }
+
+            else {
+                // Yazı tamamlandıktan sonra normal imleci kaldırıyoruz
+                document.getElementById("text").style.borderRight = "none"; // (Normal imleç kaldırılıyor)
+            }
         }
         setTimeout(typeWriter, 1000);
 
+        //Array defined
+        let loginCredentials = [];
+
+
+//Add a live clock to your login page that updates in real time and applies the same font
+        function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    
+    document.getElementById('clock').textContent = timeString;
+}
+
+// Get login button element
+const loginButton = document.querySelector('.login-button');
+
+// Add click event listener to login button
+loginButton.addEventListener('click', function() {
+    // Get username and password inputs
+    const usernameInput = document.querySelector('input[type="text"]');
+    const passwordInput = document.querySelector('input[type="password"]');
+    
+    // Check if credentials match admin/admin
+    if (usernameInput.value === 'admin' && passwordInput.value === 'admin') {
+        // Redirect to table.html
+        window.location.href = 'table.html';
+    } else {
+        // Show error message
+        alert('Invalid credentials. Please use admin/admin.');
+    }
+});
+
+// Get register button element
+const registerButton = document.querySelector('.register-button');
+
+// Add click event listener to register button
+registerButton.addEventListener('click', function() {
+    alert('Registration is currently disabled. Please use the default login credentials.');
+});
+
+// Update clock immediately and then every second
+updateClock();
+setInterval(updateClock, 1000);
         //  pill'ler css çizimi ve buton görevi görecekler, 
         //  tıklandığında ikisi de kaybolacak ekran temizlenecek ve iki farklı butondan hangisi 
         //  tıklandıysa ona göre arka plan videosu oynatacak. Arka plan videosu mp4 olacak ve ben source vereceğim
@@ -309,6 +386,49 @@ input::placeholder {
         // ekranının da gelmesini istiyorum bu da bir animasyonla olacak.
         // red pill arka plan mp4 dosyasının adı redpill.mp4 diğerinin
         //  bluepill.mp4 şimdi kodları bu kodların işleyişini bozmadan düzenle
+
+
+     
+//  next step: Implement a feature where pressing the 'H' key hides all HTML forms on the website, and pressing it again makes them reappear.
+
+
+        let formsHidden = false;
+
+    
+document.addEventListener('keydown', function(event) {
+    //avaring of accidently close window when writing username and password
+    const isInputFocused = document.activeElement.tagName === 'INPUT';
+    // Check if 'H' or 'h' key is pressed
+    if (event.key.toLowerCase() === 'h'&& !isInputFocused) {
+        const forms = document.querySelectorAll('input, .login-box');
+        
+        formsHidden = !formsHidden;
+        
+        forms.forEach(form => {
+            form.style.visibility = formsHidden ? 'hidden' : 'visible';
+        });
+    }
+});
+
+
+//when i write admin to login box i have to click login button. When i press enter, i want to trigger login button .
+// Add event listeners to login inputs for Enter key
+document.querySelector('input[type="text"]').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        document.querySelector('.login-button').click();
+    }
+});
+
+document.querySelector('input[type="password"]').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        document.querySelector('.login-button').click();
+    }
+});
+
+
+
 
         function choosePill(color) {
     // Set video source
@@ -333,6 +453,11 @@ input::placeholder {
     document.querySelector('.pill.blue').style.display = 'none';
     document.documentElement.style.setProperty('--pill-color', '#ff0000'); // Kırmızı hap örneği
 }
+
+////////////////////
+
+
+
     </script>
 </body>
 </html>
