@@ -2,7 +2,13 @@
 This page should contain a simple form where only username and password can be entered. 
 The form should send data to the OnPostAsync method when a login attempt is made. *@
 
+@*Ai Prompt 5 : Transform this custom login system into one that uses ASP.NET Core Identity. Replace manual user verification from JSON with Identity’s UserManager and SignInManager services. 
+Ensure only active users (IsActive = true) are allowed to log in. After a successful login, store essential user data (username, role, session ID) securely using Session and Cookies with proper settings (Secure, HttpOnly, SameSite). 
+If a user is already authenticated (based on Identity’s sign-in cookie), redirect them to the protected page (/Table). Use Dependency Injection to access SignInManager and UserManager in the PageModel. 
+Apply proper validation and error messages to the login form using Tag Helpers (asp-for, asp-validation-for). 
+Preserve the original Bootstrap-based styling for UI consistency. *@
 @page
+
 @model Projectw9.Pages.IndexModel
 @{
     ViewData["Title"] = "Login";
@@ -18,19 +24,24 @@ The form should send data to the OnPostAsync method when a login attempt is made
             <div class="card-body">
                 <form method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    
+
                     <div class="form-group mb-3">
                         <label asp-for="Username" class="form-label"></label>
                         <input asp-for="Username" class="form-control" />
                         <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
-                    
+
                     <div class="form-group mb-3">
                         <label asp-for="Password" class="form-label"></label>
                         <input asp-for="Password" type="password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
-                    
+
+                    <div class="form-check mb-3">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label"></label>
+                    </div>
+
                     <div class="form-group mt-4">
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </div>
